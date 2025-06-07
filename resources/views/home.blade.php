@@ -1,4 +1,4 @@
-<x-layout title="Home">
+<x-layout-auth title="Home">
     <div class="flex justify-center w-full">
         <ul class="list-disc">
             <li>Create a list</li>
@@ -8,4 +8,4 @@
         </ul>
     </div>
     <p class="pt-16 w-full text-center">“Everything should be made as simple as possible, but not simpler.”</p>
-</x-layout>
+</x-layout-auth>
