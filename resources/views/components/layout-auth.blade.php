@@ -7,11 +7,57 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     @vite(['resources/css/app.css', 'resources/js/app.ts'])
     <title>@isset($title){{ $title }} -@endisset To Do App</title>
+    <style>
+        #sun,
+        #moon,
+        .star {
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #sun.hidden,
+        #moon.hidden,
+        .star.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #sun:not(.hidden),
+        #moon:not(.hidden),
+        .star:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
-<body class="antialiased">
-    <div class="bg-white text-slate-700 dark:text-slate-200 min-h-screen dark:bg-slate-900">
-            <div class="font-sans max-w-3xl mx-auto p-6 md:p-8">
+<body class="antialiased relative">
+    {{-- BACKGROUND START --}}
+    <div class="fixed inset-0 -z-10 transition-all duration-500 bg-gradient-to-b from-blue-400 to-blue-100 dark:from-slate-800 dark:to-gray-900" id="background">
+        <!-- Stars for dark mode -->
+        <div class="star" style="top: 5%; left: 10%;"></div>
+        <div class="star" style="top: 15%; left: 25%;"></div>
+        <div class="star" style="top: 8%; left: 40%;"></div>
+        <div class="star" style="top: 20%; left: 60%;"></div>
+        <div class="star" style="top: 12%; left: 75%;"></div>
+        <div class="star hidden" style="top: 18%; left: 85%;"></div>
+
+        <!-- Matahari tampil default dengan efek siang -->
+        <div id="sun" class="absolute top-10 right-10 w-24 h-24 rounded-full bg-yellow-300 shadow-[0_0_80px_30px_rgba(255,223,0,0.8)] transition-all duration-500 z-20"></div>
+        <!-- Bulan tampil di dark mode -->
+        <div id="moon" class="absolute top-10 right-10 w-20 h-20 rounded-full bg-yellow-200 shadow-[0_0_40px_15px_rgba(255,255,200,0.3)] hidden transition-all duration-500 z-20"></div>
+    </div>
+    {{-- BACKGROUND END --}}
+
+    <div class="bg-white text-slate-700 dark:text-slate-200 min-h-screen dark:bg-transparent">
+        <div class="font-sans max-w-3xl mx-auto p-6 md:p-8">
             <img id="logo" class="mx-auto w-auto" src="{{ asset('images/Logo.png') }}" alt="Your Logo" style="height: 200px;" />
 
             {{-- Dark mode toggle --}}
@@ -38,49 +84,57 @@
             </nav>
 
             {{ $slot }}
-            
+
             <script>
                 let darkMode = localStorage.getItem('darkMode');
                 const darkModeToggle = document.querySelector('#toggle');
+                const html = document.documentElement;
+                const sun = document.getElementById('sun');
+                const moon = document.getElementById('moon');
+                const stars = document.querySelectorAll('.star');
 
                 const enableDarkMode = () => {
-                    document.documentElement.classList.add('dark');
+                    html.classList.add('dark');
                     localStorage.setItem('darkMode', 'enabled');
+                    sun.classList.add('hidden');
+                    moon.classList.remove('hidden');
+                    stars.forEach(star => star.classList.remove('hidden'));
                 };
 
                 const disableDarkMode = () => {
-                    document.documentElement.classList.remove('dark');
+                    html.classList.remove('dark');
                     localStorage.setItem('darkMode', null);
+                    sun.classList.remove('hidden');
+                    moon.classList.add('hidden');
+                    stars.forEach(star => star.classList.add('hidden'));
                 };
 
-                if (darkMode === 'enabled') {
-                    enableDarkMode();
+                function updateLogo() {
+                    const logo = document.getElementById('logo');
+                    const isDark = html.classList.contains('dark');
+                    logo.src = isDark
+                        ? "{{ asset('images/Logo2.png') }}"
+                        : "{{ asset('images/Logo.png') }}";
                 }
 
-                darkModeToggle.addEventListener('click', () => {
-                    darkMode = localStorage.getItem('darkMode');
-
-                    if (darkMode !== 'enabled') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    const isDark = darkMode === 'enabled';
+                    if (isDark) {
                         enableDarkMode();
+                        darkModeToggle.checked = true;
                     } else {
                         disableDarkMode();
                     }
                     updateLogo();
                 });
 
-                function updateLogo() {
-                    const logo = document.getElementById('logo');
-                    // Cek mode dark saat ini
-                    const isDark = document.documentElement.classList.contains('dark');
-                    if (isDark) {
-                        logo.src = "{{ asset('images/Logo2.png') }}";
+                darkModeToggle.addEventListener('click', () => {
+                    darkMode = localStorage.getItem('darkMode');
+                    if (darkMode !== 'enabled') {
+                        enableDarkMode();
                     } else {
-                        logo.src = "{{ asset('images/Logo.png') }}";
+                        disableDarkMode();
                     }
-                }
-
-                // Update logo saat halaman load berdasarkan mode sistem atau localStorage
-                document.addEventListener('DOMContentLoaded', () => {
                     updateLogo();
                 });
             </script>
