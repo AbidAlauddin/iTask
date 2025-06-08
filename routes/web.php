@@ -27,11 +27,18 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('my-day', DashboardController::class)->name('my-day');
     Route::get('all-task', AllTaskController::class)->name('all-task');
+    Route::get('completed-tasks', [\App\Http\Controllers\AllTaskController::class, 'completed'])->name('completed-tasks');
+    Route::get('upcoming', [\App\Http\Controllers\DashboardController::class, 'upcoming'])->name('upcoming');
+    Route::get('due', [\App\Http\Controllers\DashboardController::class, 'due'])->name('due');
+    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update/{user}', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/changepassword/{user}', [ProfileController::class, 'changepassword'])->name('profile.changepassword');
     Route::delete('/profile/delete/{user}', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
-    Route::resource('lists', CategoryController::class);
-    Route::resource('lists.tasks', CategoryTaskController::class)->except('show', 'index');
+    Route::get('calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
+Route::resource('lists', CategoryController::class);
+Route::resource('lists.tasks', CategoryTaskController::class)->except('show', 'index');
+
+Route::resource('notes', \App\Http\Controllers\NotesController::class);
 });

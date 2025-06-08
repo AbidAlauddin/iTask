@@ -52,8 +52,15 @@ class CategoryTaskController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'deadline' => $request->deadline,
-            'completed' => $request->has('completed'),
+            'completed' => $request->boolean('completed'),
         ]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Task updated successfully',
+                'task' => $task,
+            ]);
+        }
 
         return redirect()->route('lists.show', [$list->id])->with('success', 'Your task has been updated.');
     }

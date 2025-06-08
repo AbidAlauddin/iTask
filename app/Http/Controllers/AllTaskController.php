@@ -17,4 +17,18 @@ class AllTaskController extends Controller
             'lists' => $lists,
         ]);
     }
+
+    public function completed()
+    {
+        $tasks = Task::where('user_id', auth()->user()->id)
+            ->where('completed', true)
+            ->get();
+
+        $lists = auth()->user()->categories;
+
+        return view('completed-tasks', [
+            'tasks' => $tasks,
+            'lists' => $lists,
+        ]);
+    }
 }

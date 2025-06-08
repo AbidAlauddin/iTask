@@ -5,16 +5,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/css/app.css', 'resources/js/app.ts'])
     <title>@isset($title){{ $title }} -@endisset To Do App</title>
 </head>
 
-<body class="antialiased">
+<body class="antialiased" x-data="{ sidebarOpen: true }" @toggle-sidebar.window="sidebarOpen = !sidebarOpen">
     <div class="flex min-h-screen bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200">
-        <x-sidebar />
-        <main class="flex-1 p-6 md:p-8 overflow-auto">
-            {{ $slot }}
-        </main>
+        <x-sidebar x-bind:class="sidebarOpen ? 'w-64' : 'w-16'" x-bind:style="sidebarOpen ? '' : 'min-width: 4rem; max-width: 4rem;'" />
+        <div class="flex flex-col flex-1 overflow-auto pt-20">
+            <x-header />
+            <main class="flex-1 p-6 md:p-8 overflow-auto">
+                {{ $slot }}
+            </main>
+        </div>
     </div>
     <x-flash />
     <script>
@@ -62,6 +66,7 @@
             localStorage.setItem('darkMode', null);
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 
 </html>

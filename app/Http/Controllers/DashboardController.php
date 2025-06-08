@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $tasks = Task::where('user_id', auth()->user()->id)
-                     ->whereDate('deadline', today())
+                     ->whereDate('deadline', '<', today())
                      ->get();
 
         $lists = auth()->user()->categories;
@@ -42,5 +42,77 @@ class DashboardController extends Controller
         $lists = auth()->user()->categories;
 
         return view('home', compact('tasksDueSoon', 'lists'));
+    }
+
+    public function upcoming()
+    {
+        $tomorrow = Carbon::tomorrow();
+
+        $tasks = Task::where('user_id', auth()->user()->id)
+                     ->whereDate('deadline', '>', $tomorrow)
+                     ->get();
+
+        return view('upcoming', [
+            'tasks' => $tasks,
+        ]);
+    }
+
+    public function due()
+    {
+        $today = Carbon::today();
+
+        $tasks = Task::where('user_id', auth()->user()->id)
+                     ->whereDate('deadline', $today)
+                     ->get();
+
+        $lists = auth()->user()->categories ?? collect();
+
+        // Add a pseudo category for uncategorized tasks
+        $uncategorized = new \App\Models\Category();
+        $uncategorized->id = 0;
+        $uncategorized->title = 'Uncategorized';
+
+        $lists = $lists->prepend($uncategorized);
+
+        return view('due', [
+            'tasks' => $tasks,
+            'lists' => $lists,
+        ]);
+    }
+
+    public function dashboard()
+    {
+        $userId = auth()->user()->id;
+        $tomorrow = Carbon::tomorrow();
+        $today = Carbon::today();
+
+        $upcomingTasks = Task::where('user_id', $userId)
+            ->whereDate('deadline', '>', $tomorrow)
+            ->get()
+            ->groupBy('category_id');
+
+        $dueTasks = Task::where('user_id', $userId)
+            ->whereDate('deadline', $today)
+            ->get()
+            ->groupBy('category_id');
+
+        $overdueTasks = Task::where('user_id', $userId)
+            ->whereDate('deadline', '<', $today)
+            ->get()
+            ->groupBy('category_id');
+
+        $latestNotes = \App\Models\Note::orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        $formattedDate = \Carbon\Carbon::now()->format('l, j F Y');
+
+        return view('dashboard', [
+            'upcomingTasks' => $upcomingTasks,
+            'dueTasks' => $dueTasks,
+            'overdueTasks' => $overdueTasks,
+            'latestNotes' => $latestNotes,
+            'formattedDate' => $formattedDate,
+        ]);
     }
 }
