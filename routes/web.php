@@ -39,8 +39,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/profile/delete/{user}', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
+    Route::get('tasks/search', [\App\Http\Controllers\DashboardController::class, 'search'])->name('tasks.search');
 Route::resource('lists', CategoryController::class);
 Route::resource('lists.tasks', CategoryTaskController::class)->except('show', 'index');
+
 
 Route::resource('notes', \App\Http\Controllers\NotesController::class);
 });

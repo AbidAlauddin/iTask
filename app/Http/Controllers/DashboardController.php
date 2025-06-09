@@ -136,4 +136,33 @@ class DashboardController extends Controller
             'overdueTasks' => $overdueTasks,
         ]);
     }
+
+    public function search()
+    {
+        $userId = auth()->user()->id;
+        $query = request('query');
+
+        $tasks = Task::where('user_id', $userId)
+            ->where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('description', 'like', '%' . $query . '%');
+            })
+            ->get()
+            ->groupBy('category_id');
+
+        $lists = auth()->user()->categories ?? collect();
+
+        // Add a pseudo category for uncategorized tasks
+        $uncategorized = new \App\Models\Category();
+        $uncategorized->id = 0;
+        $uncategorized->title = 'Uncategorized';
+
+        $lists = $lists->prepend($uncategorized);
+
+        return view('tasks.search-results', [
+            'tasks' => $tasks,
+            'lists' => $lists,
+            'query' => $query,
+        ]);
+    }
 }
