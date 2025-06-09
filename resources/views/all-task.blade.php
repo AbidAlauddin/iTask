@@ -10,9 +10,9 @@
                 </div>
                 <div class="flex flex-col ml-4">
                     <p class="text-sm italic">{{ $task->description }}</p>
-                    @if ($task->deadline)
-                    <p class="text-sm italic">Due: {{ $task->deadline }}</p>
-                    @endif
+@if ($task->deadline)
+<p class="text-sm italic">Due: {{ \Carbon\Carbon::parse($task->deadline)->format('Y-m-d H:i') }}</p>
+@endif
                 </div>
             </div>
             <hr class="mt-0 mb-6 w-24">

@@ -24,9 +24,18 @@
                     @enderror
                 </div>
                 <div class="mb-4">
-                    <label for="deadline" class="text-slate-700 dark:text-slate-200">Deadline <span class="text-sm italic">(optional)</span></label>
-                    <input type="datetime-local" name="deadline" id="deadline" class="form-input mt-1 border-2 rounded p-4 w-full dark:border-0 dark:bg-gray-800 dark:hover:bg-gray-700 @error('deadline') border-red-300  @enderror" autofocus>
-                    @error('deadline')
+                    <label for="deadline_date" class="text-slate-700 dark:text-slate-200">Deadline Date <span class="text-sm italic">(optional)</span></label>
+                    <input type="date" name="deadline_date" id="deadline_date" value="{{ old('deadline_date') }}" class="form-input mt-1 border-2 rounded p-4 w-full dark:border-0 dark:bg-gray-800 dark:hover:bg-gray-700 @error('deadline_date') border-red-300  @enderror" autofocus>
+                    @error('deadline_date')
+                        <div class="text-red-500 mt-2 text-sm">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="deadline_time" class="text-slate-700 dark:text-slate-200">Deadline Time <span class="text-sm italic">(optional)</span></label>
+                    <input type="time" name="deadline_time" id="deadline_time" value="{{ old('deadline_time') }}" class="form-input mt-1 border-2 rounded p-4 w-full dark:border-0 dark:bg-gray-800 dark:hover:bg-gray-700 @error('deadline_time') border-red-300  @enderror" autofocus>
+                    @error('deadline_time')
                         <div class="text-red-500 mt-2 text-sm">
                             {{ $message }}
                         </div>

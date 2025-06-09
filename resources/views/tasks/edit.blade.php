@@ -26,7 +26,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="deadline" class="text-slate-700 dark:text-slate-200">Deadline <span class="text-sm italic">(optional)</span></label>
-                    <input type="date" name="deadline" id="deadline" value="{{ $task->deadline }}" class="form-input mt-1 border-2 rounded p-4 w-full dark:border-0 dark:bg-gray-800 dark:hover:bg-gray-700 @error('title') border-red-300  @enderror" autofocus>
+<input type="datetime-local" name="deadline" id="deadline" value="{{ \Carbon\Carbon::parse($task->deadline)->format('Y-m-d\TH:i') }}" class="form-input mt-1 border-2 rounded p-4 w-full dark:border-0 dark:bg-gray-800 dark:hover:bg-gray-700 @error('title') border-red-300  @enderror" autofocus>
                     @error('deadline')
                         <div class="text-red-500 mt-2 text-sm">
                             {{ $message }}

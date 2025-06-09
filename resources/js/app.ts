@@ -1,51 +1,57 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Dark mode persistence
-    const html = document.documentElement;
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const storedTheme = localStorage.getItem('theme');
+declare global {
+  interface Window {
+    Alpine: any;
+  }
+}
 
-    function applyTheme(theme) {
-        if (theme === 'dark') {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
-    }
+import Alpine from 'alpinejs';
+window.Alpine = Alpine;
 
-    if (storedTheme) {
-        applyTheme(storedTheme);
-    } else if (darkModeMediaQuery.matches) {
-        applyTheme('dark');
-    } else {
-        applyTheme('light');
-    }
+function useDarkMode() {
+    return {
+        html: document.documentElement,
+        darkModeMediaQuery: window.matchMedia('(prefers-color-scheme: dark)'),
+        storedTheme: localStorage.getItem('theme'),
 
-    // Listen for changes in system preference
-    darkModeMediaQuery.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            applyTheme(e.matches ? 'dark' : 'light');
-        }
-    });
+        applyTheme(theme: string) {
+            if (theme === 'dark') {
+                this.html.classList.add('dark');
+            } else {
+                this.html.classList.remove('dark');
+            }
+        },
 
-    // Example toggle button (if exists) to switch theme manually
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
+        init() {
+            if (this.storedTheme) {
+                this.applyTheme(this.storedTheme);
+            } else if (this.darkModeMediaQuery.matches) {
+                this.applyTheme('dark');
+            } else {
+                this.applyTheme('light');
+            }
+
+            this.darkModeMediaQuery.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    this.applyTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        },
+
+        toggleTheme() {
+            if (this.html.classList.contains('dark')) {
+                this.html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
             } else {
-                html.classList.add('dark');
+                this.html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
             }
-        });
-    }
+        }
+    };
+}
 
-    // Task checkbox AJAX update
-    const checkboxes = document.querySelectorAll('.task-checkbox');
-
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', async (event) => {
+function useTaskCheckbox() {
+    return {
+        async updateTaskStatus(event: Event) {
             const target = event.target;
             if (!(target instanceof HTMLInputElement)) return;
 
@@ -100,6 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.checked = !completed;
                 alert('Failed to update task status. Please try again.');
             }
-        });
-    });
+        }
+    };
+}
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('darkMode', useDarkMode);
+    Alpine.data('taskCheckbox', useTaskCheckbox);
 });
+
+Alpine.start();

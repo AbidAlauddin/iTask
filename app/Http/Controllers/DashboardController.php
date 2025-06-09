@@ -59,10 +59,11 @@ class DashboardController extends Controller
 
     public function due()
     {
-        $today = Carbon::today();
+        $now = Carbon::now();
+        $soon = $now->copy()->addDay();
 
         $tasks = Task::where('user_id', auth()->user()->id)
-                     ->whereDate('deadline', $today)
+                     ->whereBetween('deadline', [$now, $soon])
                      ->get();
 
         $lists = auth()->user()->categories ?? collect();
@@ -101,6 +102,11 @@ class DashboardController extends Controller
             ->get()
             ->groupBy('category_id');
 
+        $completedTasks = Task::where('user_id', $userId)
+            ->where('completed', true)
+            ->get()
+            ->groupBy('category_id');
+
         $latestNotes = \App\Models\Note::orderBy('created_at', 'desc')
             ->take(5)
             ->get();
@@ -111,6 +117,7 @@ class DashboardController extends Controller
             'upcomingTasks' => $upcomingTasks,
             'dueTasks' => $dueTasks,
             'overdueTasks' => $overdueTasks,
+            'completedTasks' => $completedTasks,
             'latestNotes' => $latestNotes,
             'formattedDate' => $formattedDate,
         ]);

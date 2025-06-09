@@ -18,13 +18,21 @@ class CategoryTaskController extends Controller
         $this->validate($request, [
             'title' => 'required|string',
             'description' => 'nullable|string|max:255',
-            'deadline' => 'nullable|date',
+            'deadline_date' => 'nullable|date',
+            'deadline_time' => 'nullable|string',
         ]);
+
+        $deadline = null;
+        if ($request->filled('deadline_date') && $request->filled('deadline_time')) {
+            $deadline = \Carbon\Carbon::parse($request->deadline_date . ' ' . $request->deadline_time);
+        } elseif ($request->filled('deadline_date')) {
+            $deadline = \Carbon\Carbon::parse($request->deadline_date);
+        }
 
         $list->tasks()->create([
             'title' => $request->title,
             'description' => $request->description,
-            'deadline' => $request->deadline,
+            'deadline' => $deadline,
             'user_id' => auth()->id(),
         ]);
 
