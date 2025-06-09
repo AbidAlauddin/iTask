@@ -46,7 +46,6 @@
                                     <ul class="list-disc list-inside space-y-1 text-gray-900 dark:text-gray-100">
                                         @foreach ($tasksInCategory as $task)
                                         <li>
-                                            <input type="checkbox" class="form-checkbox mr-2" {{ $task->completed ? 'checked' : '' }} disabled>
                                             {{ $task->title }}
                                         </li>
                                         @endforeach
@@ -72,7 +71,6 @@
                                     <ul class="list-disc list-inside space-y-1 text-gray-900 dark:text-gray-100">
                                         @foreach ($tasksInCategory as $task)
                                         <li>
-                                            <input type="checkbox" class="form-checkbox mr-2" checked disabled>
                                             {{ $task->title }}
                                         </li>
                                         @endforeach
@@ -98,7 +96,6 @@
                                     <ul class="list-disc list-inside space-y-1 text-gray-900 dark:text-gray-100">
                                         @foreach ($tasksInCategory as $task)
                                         <li>
-                                            <input type="checkbox" class="form-checkbox mr-2" {{ $task->completed ? 'checked' : '' }} disabled>
                                             {{ $task->title }}
                                         </li>
                                         @endforeach
@@ -124,7 +121,6 @@
                                     <ul class="list-disc list-inside space-y-1 text-gray-900 dark:text-gray-100">
                                         @foreach ($tasksInCategory as $task)
                                         <li>
-                                            <input type="checkbox" class="form-checkbox mr-2" {{ $task->completed ? 'checked' : '' }} disabled>
                                             {{ $task->title }}
                                         </li>
                                         @endforeach
