@@ -137,21 +137,21 @@
             </main>
 
             <!-- Latest Notes Section -->
-            <a href="{{ route('notes.index') }}" class="block w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-6 md:mt-12 overflow-y-auto hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                    Latest Notes
-                </h2>
-                <div class="space-y-3">
-                    @forelse ($latestNotes as $note)
-                        <div class="border-b border-gray-500 dark:border-gray-700 pb-2">
-                            <h3 class="font-semibold text-gray-900 dark:text-gray-100">{{ $note->title }}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">{{ $note->created_at->format('d M Y') }}</p>
-                        </div>
-                    @empty
-                        <p class="text-gray-600 dark:text-gray-400">No notes found.</p>
-                    @endforelse
-                </div>
-            </a>
+<div class="block w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-6 md:mt-12 overflow-y-auto hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
+        Latest Notes
+    </h2>
+    <div class="space-y-3">
+@forelse ($latestNotes as $note)
+    <a href="{{ route('notes.show', $note->id) }}" class="block border-b border-gray-500 dark:border-gray-700 pb-2 px-3 hover:bg-indigo-100 dark:hover:bg-indigo-900 hover:text-indigo-700 dark:hover:text-indigo-300 cursor-pointer transition duration-200 rounded">
+        <h3 class="font-semibold text-gray-900 dark:text-gray-100">{{ $note->title }}</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $note->created_at->format('d M Y') }}</p>
+    </a>
+@empty
+    <p class="text-gray-600 dark:text-gray-400">No notes found.</p>
+@endforelse
+    </div>
+</div>
         </div>
     </div>
 </x-layout>
