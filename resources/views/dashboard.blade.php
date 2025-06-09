@@ -28,7 +28,7 @@
         <div class="flex flex-col md:flex-row md:space-x-6 max-h-[calc(100vh-300px)]">
             <!-- Tasks Section -->
             <main class="flex-1 h-full space-y-6 overflow-y-auto">
-                <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">My Task</h1>
+                <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Dashboard</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Upcoming Tasks -->
                     <section class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-l-4 border-blue-500">

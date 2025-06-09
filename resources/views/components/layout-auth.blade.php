@@ -35,12 +35,44 @@
             background: white;
             border-radius: 50%;
         }
+
+        /* Styling awan */
+        .cloud {
+            position: absolute;
+            background: white;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
+            opacity: 0.9;
+            transition: opacity 0.5s ease;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 10px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+        }
+
+        .cloud::after {
+            width: 80px;
+            height: 80px;
+            top: -50px;
+            left: 40px;
+        }
     </style>
 </head>
 
 <body class="antialiased relative">
     {{-- BACKGROUND START --}}
     <div class="fixed inset-0 -z-10 transition-all duration-500 bg-gradient-to-b from-blue-400 to-blue-100 dark:from-slate-800 dark:to-gray-900" id="background">
+
         <!-- Stars for dark mode -->
         <div class="star" style="top: 5%; left: 10%;"></div>
         <div class="star" style="top: 15%; left: 25%;"></div>
@@ -49,6 +81,11 @@
         <div class="star" style="top: 12%; left: 75%;"></div>
         <div class="star hidden" style="top: 18%; left: 85%;"></div>
 
+        <!-- AWAN hanya muncul di LIGHT MODE -->
+        <div class="cloud dark:hidden" style="top: 25%; left: 15%; width: 120px; height: 60px;"></div>
+        <div class="cloud dark:hidden" style="top: 35%; left: 50%; width: 150px; height: 75px;"></div>
+        <div class="cloud dark:hidden" style="top: 15%; left: 75%; width: 100px; height: 50px;"></div>
+
         <!-- Matahari tampil default dengan efek siang -->
         <div id="sun" class="absolute top-10 right-10 w-24 h-24 rounded-full bg-yellow-300 shadow-[0_0_80px_30px_rgba(255,223,0,0.8)] transition-all duration-500 z-20"></div>
         <!-- Bulan tampil di dark mode -->
@@ -56,7 +93,7 @@
     </div>
     {{-- BACKGROUND END --}}
 
-    <div class="bg-white text-slate-700 dark:text-slate-200 min-h-screen dark:bg-transparent">
+    <div class="text-slate-700 dark:text-slate-200 min-h-screen dark:bg-transparent">
         <div class="font-sans max-w-3xl mx-auto p-6 md:p-8">
             <img id="logo" class="mx-auto w-auto" src="{{ asset('images/Logo.png') }}" alt="Your Logo" style="height: 200px;" />
 
@@ -114,7 +151,7 @@
                     const isDark = html.classList.contains('dark');
                     logo.src = isDark
                         ? "{{ asset('images/Logo2.png') }}"
-                        : "{{ asset('images/Logo.png') }}";
+                        : "{{ asset('images/Logo gelap.png') }}";
                 }
 
                 document.addEventListener('DOMContentLoaded', () => {
