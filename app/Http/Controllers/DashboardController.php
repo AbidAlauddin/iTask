@@ -59,11 +59,10 @@ class DashboardController extends Controller
 
     public function due()
     {
-        $now = Carbon::now();
-        $soon = $now->copy()->addDay();
+        $today = Carbon::today();
 
         $tasks = Task::where('user_id', auth()->user()->id)
-                     ->whereBetween('deadline', [$now, $soon])
+                     ->whereDate('deadline', $today)
                      ->get();
 
         $lists = auth()->user()->categories ?? collect();
@@ -120,6 +119,21 @@ class DashboardController extends Controller
             'completedTasks' => $completedTasks,
             'latestNotes' => $latestNotes,
             'formattedDate' => $formattedDate,
+        ]);
+    }
+
+    public function overdue()
+    {
+        $userId = auth()->user()->id;
+        $today = Carbon::today();
+
+        $overdueTasks = Task::where('user_id', $userId)
+            ->whereDate('deadline', '<', $today)
+            ->get()
+            ->groupBy('category_id');
+
+        return view('overdue', [
+            'overdueTasks' => $overdueTasks,
         ]);
     }
 }

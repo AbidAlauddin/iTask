@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('upcoming', [\App\Http\Controllers\DashboardController::class, 'upcoming'])->name('upcoming');
     Route::get('due', [\App\Http\Controllers\DashboardController::class, 'due'])->name('due');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('overdue', [\App\Http\Controllers\DashboardController::class, 'overdue'])->name('overdue');
+    Route::get('latest-notes', [\App\Http\Controllers\DashboardController::class, 'latestNotes'])->name('latest-notes');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update/{user}', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/changepassword/{user}', [ProfileController::class, 'changepassword'])->name('profile.changepassword');

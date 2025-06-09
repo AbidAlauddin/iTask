@@ -1,7 +1,7 @@
-<x-layout title="Due Tasks">
+<x-layout title="Overdue Tasks">
     <div class="flex flex-col w-full space-y-8">
-        <h1 class="w-full my-6 font-semibold text-center text-xl">Due Tasks</h1>
-        @forelse ($tasks->groupBy('category_id') as $categoryId => $tasksInCategory)
+        <h1 class="w-full my-6 font-semibold text-center text-xl">Overdue Tasks</h1>
+        @forelse ($overdueTasks as $categoryId => $tasksInCategory)
         <div class="w-full">
             @php
                 $category = $tasksInCategory->first()->category;
@@ -24,12 +24,12 @@
                         </span>
                         @endif
                         @if($task->deadline)
-                <div class="flex items-center space-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y') }}</span>
-                </div>
+                        <div class="flex items-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>{{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y') }}</span>
+                        </div>
                         @endif
                         <div class="flex items-center space-x-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +49,7 @@
         </div>
         @empty
         <div class="mx-auto">
-            <p>No due tasks.</p>
+            <p>No overdue tasks.</p>
         </div>
         @endforelse
     </div>

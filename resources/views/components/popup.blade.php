@@ -2,7 +2,7 @@
 <div class="toast">
     <div class="toast-body">
         @foreach($tasksDueSoon as $task)
-            <p>{{ $task->name }} - Jatuh Tempo: {{ $task->due_date->format('d M Y') }}</p>
+            <p>{{ $task->name }} - Jatuh Tempo: {{ $task->deadline->format('d M Y') }}</p>
         @endforeach
     </div>
 </div>
