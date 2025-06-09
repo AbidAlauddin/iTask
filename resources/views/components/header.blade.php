@@ -13,29 +13,20 @@
 
 <!-- Dark Mode Toggle Icon and Profile section combined -->
 <div class="relative flex items-center space-x-3 h-full">
-    <div x-data="{ darkMode: localStorage.getItem('darkMode') === 'enabled' }" class="flex items-center cursor-pointer" @click="
-        darkMode = !darkMode;
-        if(darkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    ">
-        <template x-if="darkMode">
-            <!-- Dark mode ON icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07 4.24l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 100 10 5 5 0 000-10z" />
-            </svg>
-        </template>
-        <template x-if="!darkMode">
-            <!-- Dark mode OFF icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
-            </svg>
-        </template>
-    </div>
+<div x-data="darkMode" @click="toggleTheme()" class="flex items-center cursor-pointer" x-bind:class="{ 'dark': html.classList.contains('dark') }">
+    <template x-if="html.classList.contains('dark')">
+        <!-- Dark mode ON icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07 4.24l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 100 10 5 5 0 000-10z" />
+        </svg>
+    </template>
+    <template x-if="!html.classList.contains('dark')">
+        <!-- Dark mode OFF icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+        </svg>
+    </template>
+</div>
 
     <button @click="profileMenuOpen = !profileMenuOpen" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md h-full">
         <img src="{{ Auth::user()->avatar }}" alt="Profile Photo" class="h-12 w-12 rounded-full object-cover" />

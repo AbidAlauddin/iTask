@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-6 flex items-center justify-between">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Calendar</h1>
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 py-20">
                 <button id="prevMonth" aria-label="Previous Month" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
                     <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6"></polyline>
