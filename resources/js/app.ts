@@ -12,8 +12,10 @@ function useDarkMode() {
         html: document.documentElement,
         darkModeMediaQuery: window.matchMedia('(prefers-color-scheme: dark)'),
         storedTheme: localStorage.getItem('theme'),
+        currentTheme: '',
 
         applyTheme(theme: string) {
+            this.currentTheme = theme;
             if (theme === 'dark') {
                 this.html.classList.add('dark');
             } else {
@@ -38,11 +40,11 @@ function useDarkMode() {
         },
 
         toggleTheme() {
-            if (this.html.classList.contains('dark')) {
-                this.html.classList.remove('dark');
+            if (this.currentTheme === 'dark') {
+                this.applyTheme('light');
                 localStorage.setItem('theme', 'light');
             } else {
-                this.html.classList.add('dark');
+                this.applyTheme('dark');
                 localStorage.setItem('theme', 'dark');
             }
         }
