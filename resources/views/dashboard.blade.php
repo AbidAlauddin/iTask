@@ -18,7 +18,7 @@
             </div>
 
             <!-- Calendar -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-4 md:mt-0 md:flex-1 md:w-1/2">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 mt-4 md:mt-0 md:flex-1 md:w-1/2">
                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Today is</h2>
                 <p class="text-gray-900 dark:text-gray-100 text-lg font-medium">{{ $formattedDate }}</p>
             </div>
@@ -102,11 +102,11 @@
             </main>
 
             <!-- Latest Notes Section -->
-            <aside class="w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-6 md:mt-0 overflow-y-auto">
+            <aside class="w-full md:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-6 md:mt-12 overflow-y-auto">
                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Latest Notes</h2>
                 <div class="space-y-3">
                     @forelse ($latestNotes as $note)
-                        <div class="border-b border-gray-300 dark:border-gray-700 pb-2">
+                        <div class="border-b border-gray-500 dark:border-gray-700 pb-2">
                             <h3 class="font-semibold text-gray-900 dark:text-gray-100">{{ $note->title }}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400">{{ $note->created_at->format('d M Y') }}</p>
                         </div>

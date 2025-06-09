@@ -1,4 +1,4 @@
-<header class="fixed top-0 left-0 right-0 flex items-center justify-between bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 pl-64 pr-4 h-20 z-50" x-data="{ profileMenuOpen: false }" @toggle-sidebar.window="$dispatch('toggle-sidebar')">
+<header class="fixed top-0 left-0 right-0 flex items-center justify-between bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 pl-64 pr-10 h-20 z-50" x-data="{ profileMenuOpen: false }" @toggle-sidebar.window="$dispatch('toggle-sidebar')">
     <div class="flex items-center space-x-4 h-full w-full">
         <!-- Search input -->
         <div class="relative h-full flex items-center">
@@ -13,7 +13,7 @@
 
 <!-- Dark Mode Toggle Icon and Profile section combined -->
 <div class="relative flex items-center space-x-3 h-full">
-    <div x-data="{ darkMode: localStorage.getItem('darkMode') === 'enabled' }" class="flex items-center cursor-pointer" @click="
+    <div x-data="{ darkMode: localStorage.getItem('darkMode') === 'enabled' }" :class="darkMode ? 'border-yellow-400' : 'border-gray-400'" class="flex items-center cursor-pointer border-2 border-gray-400 rounded-full p-2" @click="
         darkMode = !darkMode;
         if(darkMode) {
             document.documentElement.classList.add('dark');
@@ -38,7 +38,7 @@
     </div>
 
     <button @click="profileMenuOpen = !profileMenuOpen" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md h-full">
-        <img src="{{ Auth::user()->avatar }}" alt="Profile Photo" class="h-12 w-12 rounded-full object-cover" />
+        <img src="{{ Auth::user()->avatar }}" alt="Profile Photo" class="h-12 w-12 rounded-full object-cover border-2 border-indigo-500" />
         <span class="hidden sm:block text-gray-900 dark:text-gray-100">{{ \Illuminate\Support\Str::before(Auth::user()->email, '@') }}</span>
     </button>
     <!-- Profile dropdown -->
