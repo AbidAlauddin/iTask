@@ -49,19 +49,32 @@ class CategoryTaskController extends Controller
 
     public function update(Request $request, Category $list, Task $task)
     {
-        $this->validate($request, [
-            'title' => 'required|string',
-            'description' => 'nullable|string|max:255',
-            'deadline' => 'nullable|date',
-            'completed' => 'nullable|boolean',
-        ]);
+        \Log::info('Update request data:', $request->all());
 
-        $task->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'deadline' => $request->deadline,
-            'completed' => $request->boolean('completed'),
-        ]);
+        // Conditional validation for partial updates
+        if ($request->has('completed') && !$request->has('title') && !$request->has('description') && !$request->has('deadline')) {
+            $this->validate($request, [
+                'completed' => 'required|boolean',
+            ]);
+            $task->completed = $request->boolean('completed');
+            $task->save();
+        } else {
+            $this->validate($request, [
+                'title' => 'required|string',
+                'description' => 'nullable|string|max:255',
+                'deadline' => 'nullable|date',
+                'completed' => 'nullable|boolean',
+            ]);
+
+            $task->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'deadline' => $request->deadline,
+                'completed' => $request->boolean('completed'),
+            ]);
+        }
+
+        \Log::info('Task updated:', $task->toArray());
 
         if ($request->wantsJson()) {
             return response()->json([

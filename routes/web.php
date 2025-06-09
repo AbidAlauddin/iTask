@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::resource('lists', CategoryController::class);
 Route::resource('lists.tasks', CategoryTaskController::class)->except('show', 'index');
 
+Route::patch('/tasks/{task}', [\App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update');
+
 
 Route::resource('notes', \App\Http\Controllers\NotesController::class);
 });

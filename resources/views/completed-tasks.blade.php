@@ -1,5 +1,5 @@
 <x-layout title="Completed Tasks">
-    <div class="flex flex-col w-full space-y-8">
+    <div class="flex flex-col w-full space-y-8" x-data="taskCheckbox">
         <h1 class="w-full my-6 font-semibold text-center text-xl">Completed Tasks</h1>
         @forelse ($tasks->groupBy('category_id') as $categoryId => $tasksInCategory)
         <div class="w-full">
@@ -9,10 +9,10 @@
             <h2 class="font-semibold text-lg mb-4">{{ $category ? $category->title : 'Uncategorized' }} <span class="text-gray-500 text-sm">({{ $tasksInCategory->count() }})</span></h2>
             <div class="space-y-4">
                 @foreach ($tasksInCategory as $task)
-                <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm bg-white dark:bg-gray-800">
+                <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm bg-white dark:bg-gray-800" data-task-id="{{ $task->id }}" data-list-id="{{ $category->id }}" data-title="{{ $task->title }}" data-description="{{ $task->description }}" data-deadline="{{ $task->deadline }}">
                     <div class="flex items-center space-x-4">
-                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" checked disabled>
-                        <a href="{{ route('lists.tasks.edit', [$category, $task]) }}" class="text-gray-900 dark:text-gray-100 hover:underline line-through text-gray-400">{{ $task->title }}</a>
+                        <input type="checkbox" name="completed" x-on:change="updateTaskStatus" class="form-checkbox h-5 w-5 text-blue-600 task-checkbox" checked>
+                        <a href="{{ route('lists.tasks.edit', [$category, $task]) }}" class="task-title text-gray-900 dark:text-gray-100 hover:underline line-through text-gray-400">{{ $task->title }}</a>
                     </div>
                     <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                         @if($task->label)
@@ -24,12 +24,12 @@
                         </span>
                         @endif
                         @if($task->deadline)
-                        <div class="flex items-center space-x-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>{{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y') }}</span>
-                        </div>
+                <div class="flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>{{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y') }}</span>
+                </div>
                         @endif
                         <div class="flex items-center space-x-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

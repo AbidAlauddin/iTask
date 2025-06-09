@@ -1,5 +1,5 @@
 <x-layout title="Due Tasks">
-    <div class="flex flex-col w-full space-y-8">
+    <div class="flex flex-col w-full space-y-8" x-data="taskCheckbox">
         <h1 class="w-full my-6 font-semibold text-center text-xl">Due Tasks</h1>
         @forelse ($tasks->groupBy('category_id') as $categoryId => $tasksInCategory)
         <div class="w-full">
@@ -11,7 +11,7 @@
                 @foreach ($tasksInCategory as $task)
                 <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm bg-white dark:bg-gray-800" data-task-id="{{ $task->id }}" data-list-id="{{ $category->id }}" data-title="{{ $task->title }}" data-description="{{ $task->description }}" data-deadline="{{ $task->deadline }}">
                     <div class="flex items-center space-x-4">
-                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 task-checkbox" {{ $task->completed ? 'checked' : '' }}>
+                        <input type="checkbox" x-on:change="updateTaskStatus" class="form-checkbox h-5 w-5 text-blue-600 task-checkbox" {{ $task->completed ? 'checked' : '' }}>
                         <a href="{{ route('lists.tasks.edit', [$category, $task]) }}" class="task-title text-gray-900 dark:text-gray-100 hover:underline {{ $task->completed ? 'line-through text-gray-400' : '' }}">{{ $task->title }}</a>
                     </div>
                     <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
